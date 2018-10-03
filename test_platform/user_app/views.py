@@ -19,8 +19,7 @@ def login_action(request):
                           )
         else:
             user = auth.authenticate(username = username,password = password)
-            # print(user)
-            # print(type(user))
+
             if user is not None:
                 auth.login(request, user)
                 return render(request, "project_manage.html")
