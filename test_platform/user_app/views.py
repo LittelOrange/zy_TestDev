@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib import auth
-from django.contrib.auth.decorators import login_required
-from user_app.models import Project,Module
+
+# from user_app.models import Project,Module
 
 # Create your views here.
 
@@ -29,18 +29,12 @@ def login_action(request):
                 # # response.set_cookie('user', username, 3600) #添加浏览器cookie
                 # return response
 
-                return HttpResponseRedirect("/project_manage/")
+                return HttpResponseRedirect("/manage/project_manage/")
             else:
                 return render(request, "index.html",
                               {"error": "用户名或密码错误"}
                               )
 
-@login_required  #判断用户是否登录
-def project_manage(request):
-    username = request.session.get('user','') #读取浏览器session
-    # username = request.COOKIES.get('user','')  #读取浏览器cookie
-    project_all = Project.objects.all
-    return render(request, "project_manage.html",{"user":username,"projects":project_all})
 
 
 def logout(request):
