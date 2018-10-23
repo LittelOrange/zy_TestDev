@@ -11,8 +11,9 @@ from .models import Project, Module
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ['name', 'describe', 'status']
-        # exclude = ['create_time']
+        fields = ['name', 'describe', 'status ']   #需要展示的字段
+        # exclude = ['create_time']                  #不需要展示的字段
+
 
 
 class ModuleForm(forms.ModelForm):

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from project_app.models import Project
-from .forms import ProjectForm
+from .forms import ProjectForm,ProjectForm
 
 
 # Create your views here.
@@ -80,7 +80,6 @@ def edit_project(request, pid):
         'form': form,
         "type": "edit",
     })
-
 
 @login_required
 def delete_project(request, pid):
