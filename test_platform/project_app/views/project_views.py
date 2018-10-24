@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from project_app.models import Project
-from .forms import ProjectForm,ProjectForm
+from project_app.forms import ProjectForm,ModuleForm
 
 
 # Create your views here.
