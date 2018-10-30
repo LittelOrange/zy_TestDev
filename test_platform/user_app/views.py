@@ -35,6 +35,8 @@ def login_action(request):
                 return render(request, "index.html",
                               {"error": "用户名或密码错误"}
                               )
+    else:
+        return render(request, "index.html")
 
 
 @login_required
