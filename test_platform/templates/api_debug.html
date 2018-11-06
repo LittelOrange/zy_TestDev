@@ -74,22 +74,21 @@
     </fieldset>
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <script>
-        $(document).ready(function(){
-            $("#send").click(function(){
-                let url= $("#req_url").val();
-                let method = $('input[name = "req_method"]:checked').val();
-                let parameter= $("#req_parmeter").val();
-                // console.log(url,method,parameter);
-                //window.alert("Hello");
-                if(url === ""){
-                    window.alert("请求的url不能为空");
-                }
-                else if(method === ""){
-                    window.alert("请求的方法不能为空");
-                }
-                else if(parameter === ""){
-                    parameter = "{}";
-                }
+        $(document).ready(function () {
+            $("#send").click(function () {
+               let url = $("#req_url").val();
+               let method = $('input[name="req_method"]:checked').val();
+               let parameter = $("#req_parameter").val();
+                /// console.log(url,method,parameter);
+               //window.alert("hello");
+               if(url === ""){
+                   window.alert("请求的url不能为空");
+               }else if (method === ""){
+                   window.alert("请求的方法不能为空");
+               }else if (parameter === ""){
+                   parameter = "{}";
+               }
+
                  // 发送一个post请求
                $.post("/interface/api_debug/", {
                    "req_url": url,

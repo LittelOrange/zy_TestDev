@@ -29,18 +29,23 @@ def api_debug(request):
         url = request.POST.get("req_url")
         method = request.POST.get("req_method")
         parameter = request.POST.get("req_parameter")
-        print(parameter)
-
-        # payload = json.loads(parameter.replace("'", "\""))
+        # print(parameter)
+        # print(type(parameter))
+        # payload = json.loads(parameter)
+        payload = json.loads(parameter.replace("'", "\""))
         # print(payload)
         # print(type(payload))
 
-        # if method == "get":
-        #     r = requests.get(url,params=parameter)
-        # if method == "post":
-        #     r = requests.post(url,json=parameter)
-        # print(r.text)
-        # return HttpResponse("ok")
+        if method == "get":
+            r = requests.get(url,params=payload)  #此处必须为requests，不能乱写，是导入的包
+        if method == "post":
+            r = requests.post(url,data=payload)
+        print(r.text)
+        return HttpResponse(r.text)
+    else:
+        return render(request,"api_debug.html",
+                      {"type": "debug"
+        })
 
 
 
