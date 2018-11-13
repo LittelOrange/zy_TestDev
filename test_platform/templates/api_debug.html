@@ -9,18 +9,19 @@
         <div style="width:80%; margin-left: 20px;">
         <form action="/debug/" method="get" class="bs-example bs-example-form" role="form" style="margin-top: 30px">
 
-            <div class="input-group">
-                <span class="input-group-addon">模块</span>
-                {{form.module}}
-            </div>
-            <div class="form-group">
-                <label class = "col-sm-2 control-labei" >名称：</label>
+            <div class="form-group" style="height: 20px;">
+                <label class = "col-sm-2 control-labei" >模块：</label>
                 <div class = "col-sm-10">
                     {{form.module}}
                 </div>
-                <!--<select id="module_name"></select>-->
             </div>
-            <br>
+
+            <div class="input-group">
+                <span class="input-group-addon">名称</span>
+                <input id="req_name" type="text" class="form-control" placeholder="name">
+            </div>
+                <!--<select id="module_name"></select>-->
+
 
             <div class="input-group">
                 <span class="input-group-addon">URL</span>
@@ -87,6 +88,7 @@
                let url = $("#req_url").val();
                let method = $('input[name="req_method"]:checked').val();
                let parameter = $("#req_parameter").val();
+
                 /// console.log(url,method,parameter);
                //window.alert("hello");
                if(url === ""){
@@ -103,23 +105,29 @@
                    "req_method": method,
                    "req_parameter": parameter
                 }, function (resp) {
-                    console.log("8888", resp);
+                    // console.log("8888", resp);
                     $("#result").html(resp);
                 });
             });
 
-            $(document).ready(function () {
+
             $("#save").click(function () {
+                let name = $("#req_name").val();
                let url = $("#req_url").val();
                let method = $('input[name="req_method"]:checked').val();
                let parameter = $("#req_parameter").val();
                let req_type = $('input[name="req_type"]:checked').val();
                let header = $("#req_header").val();
+               let module_name = $('select[id="module_name"]').val();
 
-               console.log("类型",header);
-               console.log("toubu",header);
+
+               console.log("类型",req_type);
+               console.log("头部",header);
+               console.log("url",url);
                //window.alert("hello");
-               if(url === ""){
+               if (name === "") {
+                    window.alert("接口的名称不能为空");
+                }else if(url === ""){
                    window.alert("请求的url不能为空");
                }else if (method === ""){
                    window.alert("请求的方法不能为空");
@@ -129,18 +137,20 @@
 
                  // 发送一个post请求
                $.post("/interface/save_case/", {
+                   "name": name,
                    "req_url": url,
                    "req_method": method,
                    "req_parameter": parameter,
                    "req_type": req_type,
                    "header": header,
+                   "module": module_id,
                 }, function (resp) {
-                    console.log("8888", resp);
+                    // console.log("8888", resp);
                     $("#result").html(resp);
                 });
-
             });
         });
+
 
     </script>
 
