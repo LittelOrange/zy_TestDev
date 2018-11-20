@@ -2,7 +2,7 @@ import json
 import requests
 
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from interface_app.forms import TestCaseForm
 from interface_app.models import TestCase
 from project_app.models import Project, Module
@@ -83,13 +83,14 @@ def search_case_name(request):
 
 
 
-#创建/tiaoshi接口
-def debug(request):
-    form = TestCaseForm()
+#创建/调试用例
+def add_case(request):
+    # form = TestCaseForm()
     if request.method == "GET":
-        return render(request,"api_debug.html",
+        form = TestCaseForm()
+        return render(request,"add_case.html",
                       {"form":form,
-                       "type": "debug",
+                       "type": "add",
         })
     else:
         return HttpResponse("404")
@@ -151,3 +152,52 @@ def save_case(request):
 
     else:
         return HttpResponse("404")
+
+
+#编辑/调试用例
+def debug_case(request,cid):
+    print("调试的用列的id",cid)
+    if request.method == "GET":
+        form = TestCaseForm()
+        return render(request,"debug_case.html",
+                      {"form":form,
+                       "type": "debug",
+        })
+    else:
+        return HttpResponse("404")
+
+#获取接口信息
+def get_case_info(request):
+    if request.method == "POST":
+        case_id = request.POST.get("caseId","")
+        print(case_id)
+        if case_id == "":
+            return JsonResponse({"success":"false","message":"case is NULL."})
+        case_obj = TestCase.objects.get(pk = case_id)
+        # print("模块id:",case_obj.module_id)
+        # mid = case_obj.module_id
+        # module_obj = Module.objects.get(id = mid)
+        module_obj = Module.objects.get(id=case_obj.module_id)
+
+        module_name = module_obj.name
+        # pid = module_obj.project_id
+        # # print("项目ID",pid)
+        # project_obj=Project.objects.get(id = pid)
+        # project_name = project_obj.name
+        project_obj = Project.objects.get(id=module_obj.project_id).name
+
+        case_info ={
+            "module_name":module_name,
+            "project_name":project_name,
+            "name":case_obj.name,
+            "url": case_obj.url,
+            "req_method": case_obj.req_method,
+            "req_type":case_obj.req_type,
+            "req_header": case_obj.req_header,
+            "req_parameter": case_obj.req_parameter,
+        }
+        return JsonResponse({"success": "true", "message": "ok","data":case_info})
+
+    else:
+        return HttpResponse("404")
+

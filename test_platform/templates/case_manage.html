@@ -50,7 +50,7 @@
                     <!--style="float: right;"-->
                     <!--onclick="window.location.href='/interface/debug'">调试</button>-->
           <!--</h3>-->
-            <a class="btn btn-primary btn-1g" style="float: right" id= "CreateButton" href="/interface/debug" role="button ">调试</a>
+            <a class="btn btn-primary btn-1g" style="float: right" id= "CreateButton" href="/interface/add_case" role="button ">创建</a>
             </h3>
           <div class="table-responsive">
             <form class="navbar-form" method="get" action="/interface/search_case_name/">
@@ -80,8 +80,8 @@
                   <td>{{ case.req_method  }}</td>
                   <td>{{ case.create_time | date:"Y-m-d H:i:s" }}</td>
                   <td>
-                    <a href="/manage/edit_project/{{project.id}}/" id="update">编辑</a>
-                    <a href="/manage/delete_project/{{project.id}}/" id="delete">删除</a>
+                    <a href="/interface/debug_case/{{case.id}}/" id="update">调试</a>
+                    <a href="/interface/delete_project/{{case.id}}/" id="delete">删除</a>
                   </td>
                 </tr>
                 {% endfor %}
@@ -116,12 +116,25 @@
         {% endif %}
 
 
-       <!-- 调试页面 -->
+       <!-- 添加用列页面 -->
+        {% if type == 'add'%}
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <!--<h3 class="sub-header">调试接口</h3>-->
+            <div class="row">
+                {% block add_case %}
+
+                {% endblock %}
+            </div>
+        </div>
+        {% endif %}
+
+
+          <!-- 添加用列页面 -->
         {% if type == 'debug'%}
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <!--<h3 class="sub-header">调试接口</h3>-->
             <div class="row">
-                {% block api_debug %}
+                {% block debug_case %}
 
                 {% endblock %}
             </div>

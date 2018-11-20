@@ -1,9 +1,9 @@
 {% extends "case_manage.html" %}
-{% block api_debug %}
+{% block debug_case %}
 
     <fieldset>
         <div id="legend" class="">
-            <legend class="">在线postman</legend>
+            <legend class="">调试用例</legend>
         </div>
 
         <div style="width:80%; margin-left: 20px;">
@@ -79,21 +79,29 @@
                 <button type="button" class="btn btn-success" id="send" style="float: right;margin-right: 10px;">调试</button>
                 <button type="button" class="btn btn-success" id="save" style="float: right;margin-right: 10px;">保存</button>
             </div>
-
         </form>
-
         </div>
-
         <div style="width:80%; margin-left: 20px;">
             <p>返回结果：</p>
             <textarea id="result" class="form-control" rows="10" name=textarea></textarea>
         </div>
-
     </fieldset>
+
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
         // 初始化菜单
         ProjectInit('project_name', 'module_name');
+        // var url = window.location.href;
+        // var url2 = self.location.href;
+        // var url3 = document.URL;
+
+        let url_path = document.location.pathname;
+        // console.log("44",url_path);
+        let case_id = url_path.split("/")[3];
+        // window.alert(path_list);
+
+        //调用获取用例信息的方法
+        CaseInit(case_id);
 
         $(document).ready(function () {
             $("#send").click(function () {
