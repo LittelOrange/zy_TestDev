@@ -30,16 +30,20 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li ><a href="/manage/project_manage/#">项目管理</a></li>
-            <li><a href="/manage/module_manage/">模块管理</a></li>
+            <!--<li ><a href="/manage/project_manage/#">项目管理</a></li>-->
+            <!--<li><a href="/manage/module_manage/">模块管理</a></li>-->
+              <li><a href="/manage/project_manage/"><span class="glyphicon glyphicon-th-large"></span> 项目管理</a></li>
+              <li><a href="/manage/module_manage/"><span class="glyphicon glyphicon-th"></span> 模块管理</a></li>
           </ul>
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">用例管理</a></li>
-            <li><a href="/interface/task_manage/">任务管理</a></li>
+              <li class="active"><a href="#"><span class="glyphicon glyphicon-th-list"></span> 用例管理</a></li>
+              <li><a href="/interface/task_manage/"><span class="glyphicon glyphicon-tasks"></span> 任务管理</a></li>
+            <!--<li class="active"><a href="#">用例管理</a></li>-->
+            <!--<li><a href="/interface/task_manage/">任务管理</a></li>-->
           </ul>
           <ul class="nav nav-sidebar">
-            <li><a href="">mockserver</a></li>
-            <li><a href="">测试工具</a></li>
+            <li><a href=""><span class="glyphicon glyphicon-log-in"></span>mockserver</a></li>
+            <li><a href=""><span class="glyphicon glyphicon-wrench"></span>测试工具</a></li>
           </ul>
         </div>
 
@@ -116,7 +120,7 @@
         {% endif %}
 
 
-       <!-- 添加用列页面 -->
+       <!-- 添加（调试）用列页面 -->
         {% if type == 'add'%}
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <!--<h3 class="sub-header">调试接口</h3>-->
@@ -129,7 +133,7 @@
         {% endif %}
 
 
-          <!-- 添加用列页面 -->
+          <!-- 添加用例页面 -->
         {% if type == 'debug'%}
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <!--<h3 class="sub-header">调试接口</h3>-->
@@ -145,25 +149,25 @@
 
 
 
-        {% if type == 'edit'%}
-            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                <h3 class="sub-header">编辑项目
-                  <button class="btn btn-default"
-                            onclick="window.location.href='/manage/project_manage/'"
-                            style="margin-left: 180px;">取消
-                  </button>
-                </h3>
+        <!--{% if type == 'edit'%}-->
+            <!--<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">-->
+                <!--<h3 class="sub-header">编辑项目-->
+                  <!--<button class="btn btn-default"-->
+                            <!--onclick="window.location.href='/manage/project_manage/'"-->
+                            <!--style="margin-left: 180px;">取消-->
+                  <!--</button>-->
+                <!--</h3>-->
 
-                <div class="table-responsive">
-                    <!--<form action="/manage/edit_project/" method="post">-->
-                      <form role="form" method="post">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <button type="submit" class="btn btn-success" id="save">保存</button>
-                    </form>
-                </div>
-            </div>
-            {% endif %}
+                <!--<div class="table-responsive">-->
+                    <!--&lt;!&ndash;<form action="/manage/edit_project/" method="post">&ndash;&gt;-->
+                      <!--<form role="form" method="post">-->
+                        <!--{% csrf_token %}-->
+                        <!--{{ form.as_p }}-->
+                        <!--<button type="submit" class="btn btn-success" id="save">保存</button>-->
+                    <!--</form>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--{% endif %}-->
 
       </div>
     </div>

@@ -5,8 +5,8 @@ var ProjectInit = function (_cmbProject, _cmbModule, defaultProject, defaultModu
     var cmbModule = document.getElementById(_cmbModule);
     var dataList = [];
 
-    window.alert(defaultProject);
-    window.alert(defaultMudle);
+    // window.alert(defaultProject);
+    // window.alert(defaultModule);
 
 
     //设置默认选项

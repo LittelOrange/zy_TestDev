@@ -3,7 +3,7 @@
 
     <fieldset>
         <div id="legend" class="">
-            <legend class="">在线postman</legend>
+            <legend class="">创建接口用例</legend>
         </div>
 
         <div style="width:80%; margin-left: 20px;">
@@ -15,11 +15,12 @@
             </div>
 
 
-            <div class="form-group" style="height: 20px;">
+            <!--<div class="form-group" style="height: 20px;">-->
                 <!--<label class = "col-sm-2 control-labei" >模块：</label>-->
                 <!--<div class = "col-sm-10">-->
                     <!--{{form.module}}-->
                 <!--</div>-->
+             <div class="form-group">
                 <label>模块：</label>
                 <select id="module_name"></select>
             </div>
@@ -40,7 +41,7 @@
             <div>
                 <label>请求方法：</label>
                 <label class="radio-inline">
-                    <input type="radio" name="req_method" id="get" value="get" > GET
+                    <input type="radio" name="req_method" id="get" value="get" checked> GET
                 </label>
                 <label class="radio-inline">
                     <input type="radio" name="req_method" id="post" value="post"> POST
@@ -75,9 +76,19 @@
                 <input id="req_parameter" type="text" class="form-control">
             </div>
             <p style="color:#8B8989">说明：以字典的方式设置参数，如：{"id":1, "name":"名称"}</p>
+
+            <p>验证数据：</p>
+            <div style="width: 100%;">
+                <div style="float: left; width: 90%;">
+                     <textarea id="assert_text" class="form-control" rows="3" name=textarea></textarea>
+                </div>
+                 <div style="margin-top: 38px; float: right; width: 10%;">
+                    <button type="button" class="btn btn-default" id="assert" style="float: right;margin-right: 10px;">验证</button>
+                </div>
+            </div>
             <div style="width: 100%; height: 60px;">
-                <button type="button" class="btn btn-success" id="send" style="float: right;margin-right: 10px;">调试</button>
-                <button type="button" class="btn btn-success" id="save" style="float: right;margin-right: 10px;">保存</button>
+                    <button type="button" class="btn btn-success" id="send" style="float: right;margin-right: 10px;">调试</button>
+                    <button type="button" class="btn btn-primary" id="save" style="float: right;margin-right: 10px;">保存</button>
             </div>
 
         </form>
@@ -92,14 +103,20 @@
     </fieldset>
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
-        // 初始化菜单
+        // 初始化项目模块选择框
         ProjectInit('project_name', 'module_name');
 
+         // 设置header 与 参数输入框默认值
+        document.querySelector("#req_header").value="{}";
+        document.querySelector("#req_parameter").value="{}";
+
         $(document).ready(function () {
+
             $("#send").click(function () {
                let url = $("#req_url").val();
                let method = $('input[name="req_method"]:checked').val();
                let parameter = $("#req_parameter").val();
+               let type = $('input[name="req_type"]:checked').val();
 
                 /// console.log(url,method,parameter);
                //window.alert("hello");
@@ -111,32 +128,40 @@
                    parameter = "{}";
                }
 
-                 // 发送一个post请求
+                 // 调试接口
                $.post("/interface/api_debug/", {
                    "req_url": url,
                    "req_method": method,
-                   "req_parameter": parameter
+                   "req_parameter": parameter,
+                   "req_type": type,
                 }, function (resp) {
                     // console.log("8888", resp);
-                    $("#result").html(resp);
+                    // $("#result").html(resp);
+                   if(resp.success === "true"){
+                       $("#result").html(resp.data);
+                   }else{
+                       window.alert(resp.message);
+                   }
                 });
             });
 
 
+            // 保存接口测试用例
             $("#save").click(function () {
                 let name = $("#req_name").val();
-               let url = $("#req_url").val();
-               let method = $('input[name="req_method"]:checked').val();
-               let parameter = $("#req_parameter").val();
-               let req_type = $('input[name="req_type"]:checked').val();
-               let header = $("#req_header").val();
-               let module_name = $('select[id="module_name"]').val();
+                let url = $("#req_url").val();
+                let method = $('input[name="req_method"]:checked').val();
+                let parameter = $("#req_parameter").val();
+                let req_type = $('input[name="req_type"]:checked').val();
+                let header = $("#req_header").val();
+                let module_name = $('select[id="module_name"]').val();
+                let assert_text = $("#assert_text").val();
 
 
-               console.log("类型",req_type);
-               console.log("模块", module_name);
-               console.log("头部",header);
-               console.log("url",url);
+               // console.log("类型",req_type);
+               // console.log("模块", module_name);
+               // console.log("头部",header);
+               // console.log("url",url);
                //window.alert("hello");
                if (name === "") {
                     window.alert("接口的名称不能为空");
@@ -148,7 +173,7 @@
                    parameter = "{}";
                }
 
-                 // 发送一个post请求
+                 // 保存用例接口
                $.post("/interface/save_case/", {
                    "name": name,
                    "req_url": url,
@@ -156,10 +181,34 @@
                    "req_parameter": parameter,
                    "req_type": req_type,
                    "header": header,
-                   "module": module_id,
+                   "module": module_name,
+                   "assert_text": assert_text,
                 }, function (resp) {
                     // console.log("8888", resp);
-                    $("#result").html(resp);
+                    // $("#result").html(resp);
+                   if(resp.success === "true"){
+                        window.alert(resp.message);
+                    }else{
+                        window.alert(resp.message);
+                    }
+                });
+            });
+
+             // 验证数据
+            $("#assert").click(function () {
+                let result = $("#result").val();
+                let assert = $("#assert_text").val();
+                if (result === "" || assert === "") {
+                    window.alert("验证数据不能为空！");
+                }
+
+                // 验证接口数据
+                $.post("/interface/api_assert/", {
+                    "result": result,
+                    "assert": assert,
+                }, function (resp) {
+                    //console.log("6666", resp);
+                    window.alert(resp.message);
                 });
             });
         });

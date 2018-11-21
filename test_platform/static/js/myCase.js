@@ -11,15 +11,21 @@ var CaseInit = function (case_id) {
                 console.log("结果",result);
                 document.getElementById("req_name").value=result.name;
                 document.getElementById("req_url").value=result.url;
-                document.getElementById("req_header").value=result.req_header;
-                document.getElementById("req_parameter").value=result.req_parameter;
+                document.getElementById("req_header").value=result.reqHeader;
+                document.getElementById("req_parameter").value=result.reqParameter;
+                document.getElementById("assert_text").value = result.assertText;
                 // document.getElementById("get").setAttribute("checked","")
-                if (result.req_method =="get"){
-                    document.getElementById("get").setAttribute("checked","")
+                // if (result.req_method =="get"){
+                //     document.getElementById("get").setAttribute("checked","")
+                // }
+                // else{
+                //     document.getElementById("post").setAttribute("checked","")
+                // }
+                if (result.reqMethod === "post"){
+                    document.getElementById("post").setAttribute("checked", "")
                 }
-                else{
-                    document.getElementById("post").setAttribute("checked","")
-                }
+                // window.alert(result.projectName);
+                // window.alert(result.moduleName);
                 // 初始化菜单
                 ProjectInit('project_name', 'module_name', result.projectName, result.moduleName);
             }
