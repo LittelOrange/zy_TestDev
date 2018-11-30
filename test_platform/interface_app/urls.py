@@ -13,9 +13,10 @@ urlpatterns = [
     path('debug_case/<int:cid>/', testcase_views.debug_case),
 
     #用例管理 -- 由JS调用的接口
+    path('get_project_list', testcase_api.get_project_list),
     path("api_debug/",testcase_api.api_debug),
     path("save_case/",testcase_api.save_case),
-    path('get_porject_list', testcase_api.get_project_list),
+
     path('get_case_info/',testcase_api.get_case_info),
     path('api_assert/',testcase_api.api_assert),
     path('update_case/', testcase_api.update_case),
